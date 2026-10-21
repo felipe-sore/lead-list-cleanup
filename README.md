@@ -108,3 +108,7 @@ Prospect lists hold personal data. Use lists you have a lawful basis to process 
 ## About
 
 Built by [Felipe Sore](https://linkedin.com/in/felipesore) with Claude Code. It started as the list-cleaning agent I use in my own outbound work and grew into a tested tool.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

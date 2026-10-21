@@ -3,13 +3,23 @@
   "version": "1.0.0",
   "description": "Claude Code skill and Node.js CLI to clean, standardize, segment and safely enrich B2B prospect lists.",
   "main": "src/clean.js",
-  "bin": { "lead-clean": "bin/lead-clean.js" },
+  "bin": {
+    "lead-clean": "bin/lead-clean.js"
+  },
   "scripts": {
     "test": "node --test tests/*.test.js",
     "example": "node bin/lead-clean.js examples/sample_input.csv --one-per-company --default-country US --out examples/sample_output.csv --report examples/sample_report.md"
   },
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "libphonenumber-js": "^1.11.0"
+  },
+  "license": "MIT",
+  "author": "Felipe Sore",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/felipe-sore/lead-list-cleanup"
   }
 }
