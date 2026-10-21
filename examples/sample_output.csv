@@ -1,0 +1,6 @@
+First Name,Last Name,Full Name,Title,Company,Email,Phone,Country,Segment,Email Domain,Email Status,Generic Email,Disposable Email,Free Provider,Phone Status,Notes
+Jane,Doe,Jane Doe,VP of Sales,Northwind Labs Inc.,jane.doe@northwindlabs.example,+12124567890,United States,decision_maker,northwindlabs.example,syntax_ok,false,false,false,valid,
+Maria,Jose da Silva,Maria Jose da Silva,Diretora Comercial,Fabrikam Ltda,maria.silva@fabrikam.example,+5521998765432,Brasil,decision_maker,fabrikam.example,syntax_ok,false,false,false,valid,
+,,,Marketing Manager,Contoso,info@contoso.example,+442079460958,UK,management,contoso.example,syntax_ok,true,false,false,valid,
+,,,Head of Growth,Globex,asmith@globex.example,,,management,globex.example,syntax_ok,false,false,false,missing,"possible initial + last name ""Smith"", not confirmed, review manually"
+Tom,Ray,Tom Ray,Founder,Initech,tom@mailinator.com,123,US,decision_maker,mailinator.com,disposable,false,true,false,invalid,
