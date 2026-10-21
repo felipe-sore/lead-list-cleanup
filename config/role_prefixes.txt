@@ -1,0 +1,33 @@
+# Generic (role-based) mailbox prefixes. These are flagged, never deleted.
+# Add the ones common in your market.
+info
+contact
+contato
+contacto
+hello
+hi
+hola
+ola
+sales
+vendas
+ventas
+comercial
+support
+suporte
+soporte
+help
+admin
+office
+team
+marketing
+hr
+rh
+jobs
+careers
+billing
+finance
+financeiro
+noreply
+no-reply
+atendimento
+geral

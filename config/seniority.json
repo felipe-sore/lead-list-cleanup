@@ -1,0 +1,13 @@
+{
+  "_comment": "Checked in order. 'overrides' wins first, so 'Assistant to the CEO' is not a decision maker. Higher rank wins when keeping one contact per company. Keywords match whole words, without accents.",
+  "overrides": [
+    { "segment": "individual_contributor", "rank": 1, "keywords": ["assistant", "assistente", "asistente", "intern", "internship", "estagiario", "becario", "trainee", "secretary", "secretaria"] }
+  ],
+  "levels": [
+    { "segment": "decision_maker", "rank": 4, "keywords": ["ceo", "cfo", "coo", "cto", "cmo", "cro", "cio", "chief", "founder", "co-founder", "cofounder", "owner", "president", "partner", "vp", "vice president", "director", "managing director", "fundador", "cofundador", "socio", "dono", "proprietario", "presidente", "diretor", "diretora", "director general", "dueno"] },
+    { "segment": "management", "rank": 3, "keywords": ["head", "manager", "gerente", "gestor", "gestora", "superintendent", "superintendente"] },
+    { "segment": "coordination", "rank": 2, "keywords": ["coordinator", "coordenador", "coordenadora", "coordinador", "supervisor", "supervisora", "lead", "team lead", "lider"] },
+    { "segment": "individual_contributor", "rank": 1, "keywords": ["analyst", "specialist", "associate", "consultant", "executive", "representative", "sdr", "bdr", "account executive", "analista", "especialista", "consultor", "consultora", "executivo", "executiva", "ejecutivo"] }
+  ],
+  "default": { "segment": "other", "rank": 0 }
+}

@@ -1,0 +1,14 @@
+# Disposable / temporary email domains. Starter list only.
+# Replace or extend it with a maintained list, for example:
+# https://github.com/disposable-email-domains/disposable-email-domains
+mailinator.com
+guerrillamail.com
+sharklasers.com
+10minutemail.com
+temp-mail.org
+yopmail.com
+trashmail.com
+maildrop.cc
+dispostable.com
+getnada.com
+throwawaymail.com

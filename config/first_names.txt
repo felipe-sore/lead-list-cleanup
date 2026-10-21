@@ -1,0 +1,4 @@
+# Optional. One first name per line, lowercase, no accents.
+# Used only to confirm a single-token email local part (anna@company.com -> First Name "Anna").
+# Plug in a list you trust, for example a national statistics office name list for your market.
+# Leave it empty and single-token emails stay unconfirmed.

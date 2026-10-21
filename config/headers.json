@@ -1,0 +1,16 @@
+{
+  "_comment": "Canonical column -> header aliases found in real exports (English, Portuguese, Spanish). Matching ignores case, accents, spaces and punctuation. Add your own aliases here.",
+  "First Name": ["first name", "firstname", "given name", "primeiro nome", "nome", "nombre"],
+  "Last Name": ["last name", "lastname", "surname", "family name", "sobrenome", "ultimo nome", "apellido", "apellidos"],
+  "Full Name": ["full name", "name", "contact name", "nome completo", "nombre completo", "contato"],
+  "Title": ["title", "job title", "position", "role", "cargo", "funcao", "puesto"],
+  "Company": ["company", "company name", "organization", "organisation", "account", "empresa", "organizacao", "compania", "companhia"],
+  "Email": ["email", "e-mail", "email address", "work email", "correo", "correo electronico"],
+  "Phone": ["phone", "phone number", "mobile", "mobile phone", "telefone", "celular", "whatsapp", "telefono", "movil"],
+  "Industry": ["industry", "sector", "segment", "setor", "segmento", "industria"],
+  "Location": ["location", "city", "region", "state", "localizacao", "cidade", "estado", "ubicacion", "ciudad"],
+  "Country": ["country", "country code", "pais"],
+  "Company Size": ["company size", "employees", "headcount", "number of employees", "tamanho da empresa", "funcionarios", "empleados"],
+  "Website": ["website", "company website", "domain", "url", "site", "dominio", "sitio web"],
+  "LinkedIn URL": ["linkedin", "linkedin url", "linkedin profile", "perfil linkedin"]
+}

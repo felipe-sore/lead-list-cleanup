@@ -1,0 +1,18 @@
+# Lowercase particles inside names, unless they are the first word.
+de
+da
+do
+das
+dos
+e
+van
+von
+der
+den
+del
+della
+di
+du
+la
+le
+y

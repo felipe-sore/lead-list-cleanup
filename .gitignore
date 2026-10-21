@@ -1,0 +1,5 @@
+node_modules/
+.env
+*_clean.csv
+*_report.md
+!examples/*

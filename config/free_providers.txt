@@ -1,0 +1,20 @@
+# Personal (free) email providers. A lead on these domains has no company domain to scrape.
+gmail.com
+googlemail.com
+hotmail.com
+outlook.com
+live.com
+msn.com
+yahoo.com
+icloud.com
+me.com
+aol.com
+proton.me
+protonmail.com
+gmx.com
+zoho.com
+yahoo.com.br
+hotmail.com.br
+uol.com.br
+bol.com.br
+terra.com.br
