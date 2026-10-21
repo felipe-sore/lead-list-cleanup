@@ -64,6 +64,7 @@ function fillNames(row, cfg) {
     row['First Name'] = first;
     row['Last Name'] = last;
   }
+  if (!isBlank(row['Full Name'])) row['Full Name'] = fixCase(row['Full Name'], cfg.particles);
   row['First Name'] = fixCase(row['First Name'], cfg.particles);
   row['Last Name'] = fixCase(row['Last Name'], cfg.particles, { lastName: true });
   if (isBlank(row['First Name']) && !isBlank(row.Email)) {

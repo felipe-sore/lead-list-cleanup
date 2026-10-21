@@ -19,6 +19,7 @@ test('end to end on the sample list, no network', async () => {
 
   const jane = byEmail(out.rows, 'jane.doe@northwindlabs.example');
   assert.equal(jane['First Name'], 'Jane');
+  assert.equal(jane['Full Name'], 'Jane Doe');
   assert.equal(jane.Segment, 'decision_maker');
   assert.equal(jane.Phone, '+12124567890');
 

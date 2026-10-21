@@ -23,3 +23,10 @@ jobs:
           npm run example
           echo "----- sample_output.csv"; cat examples/sample_output.csv
           echo "----- sample_report.md"; cat examples/sample_report.md
+      - uses: actions/upload-artifact@v4
+        if: matrix.node == 22
+        with:
+          name: example-output
+          path: |
+            examples/sample_output.csv
+            examples/sample_report.md
