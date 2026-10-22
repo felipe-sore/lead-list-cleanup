@@ -25,7 +25,8 @@ function analyzeEmail(raw, cfg) {
 
 // Does the domain accept mail at all? One DNS lookup per unique domain.
 // A domain with no MX but with an A record can still receive mail (RFC 5321),
-// so only "no MX and no A" counts as no_mail_server.
+// so only "no MX and no A" counts as no_mail_server. A failing DNS server
+// (ESERVFAIL, timeout) says nothing about the domain: that is dns_error, not a verdict.
 async function checkMailServers(domains, resolver = dns) {
   const out = new Map();
   for (const domain of new Set(domains)) {
@@ -33,13 +34,13 @@ async function checkMailServers(domains, resolver = dns) {
       const mx = await resolver.resolveMx(domain);
       if (mx && mx.length) { out.set(domain, 'domain_ok'); continue; }
     } catch (err) {
-      if (!['ENOTFOUND', 'ENODATA', 'ESERVFAIL'].includes(err.code)) { out.set(domain, 'dns_error'); continue; }
+      if (!['ENOTFOUND', 'ENODATA'].includes(err.code)) { out.set(domain, 'dns_error'); continue; }
     }
     try {
       const a = await resolver.resolve4(domain);
       out.set(domain, a && a.length ? 'domain_ok' : 'no_mail_server');
-    } catch {
-      out.set(domain, 'no_mail_server');
+    } catch (err) {
+      out.set(domain, ['ENOTFOUND', 'ENODATA'].includes(err.code) ? 'no_mail_server' : 'dns_error');
     }
   }
   return out;

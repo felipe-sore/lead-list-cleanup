@@ -79,3 +79,16 @@ test('adapters run only when asked, and the WhatsApp check skips invalid phones'
   assert.ok(seen.length > 0 && seen.every((p) => p.startsWith('+')));
   assert.equal(byEmail(out.rows, 'tom@mailinator.com').WhatsApp, 'not_checked');
 });
+
+test('an alias column never overwrites a column with the canonical name', async () => {
+  const input = {
+    headers: ['Email', 'Mobile', 'Phone', 'Email Status'],
+    rows: [{ Email: 'jane@northwindlabs.example', Mobile: '+1 212 456 7890', Phone: '+1 212 456 7891', 'Email Status': 'verified by vendor' }],
+  };
+  const out = await clean(input, cfg, {});
+  const row = out.rows[0];
+  assert.equal(row.Phone, '+12124567891');
+  assert.equal(row.Mobile, '+1 212 456 7890');
+  assert.equal(row['Email Status (2)'], 'verified by vendor');
+  assert.equal(row['Email Status'], 'syntax_ok');
+});

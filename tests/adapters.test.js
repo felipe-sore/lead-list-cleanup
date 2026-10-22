@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const emailVerifier = require('../src/adapters/email-verifier');
 const whatsapp = require('../src/adapters/whatsapp');
-const { extract } = require('../src/adapters/website');
+const { extract, isBlocked } = require('../src/adapters/website');
 
 function mockFetch(responder) {
   const calls = [];
@@ -53,4 +53,11 @@ test('WhatsApp adapter maps the boolean field', async () => {
 test('website metadata extraction', () => {
   const html = '<html><head><title> Fabrikam | Industrial IoT </title><meta name="description" content="Sensors for factories."></head></html>';
   assert.equal(extract(html), 'Fabrikam | Industrial IoT | Sensors for factories.');
+});
+
+test('a normal site on a CDN or with a reCAPTCHA form is not reported as blocked', () => {
+  const normal = '<html><head><title>Fabrikam</title><script src="https://cdnjs.cloudflare.com/x.js"></script></head><body><div class="g-recaptcha"></div></body></html>';
+  assert.equal(isBlocked(200, normal), false);
+  assert.equal(isBlocked(503, '<html><head><title>Just a moment...</title></head><body class="cf-chl-widget"></body></html>'), true);
+  assert.equal(isBlocked(403, ''), true);
 });

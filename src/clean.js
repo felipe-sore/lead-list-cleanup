@@ -88,7 +88,7 @@ async function runAdapters(rows, adapters, options, log) {
  * adapters: injected provider functions, so tests never touch the network.
  */
 async function clean({ headers, rows }, cfg, options = {}, adapters = {}, log = () => {}) {
-  const { mapping, extra } = mapHeaders(headers, cfg.headers);
+  const { mapping, extra } = mapHeaders(headers, cfg.headers, ADDED.filter((h) => h !== 'Notes'));
   let working = rows.map((r, i) => prepareRow(remapRow(r, mapping), i, cfg, options));
   const removed = [];
 

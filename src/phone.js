@@ -9,7 +9,6 @@ let countryIndex;
 function countryCode(value) {
   if (isBlank(value)) return null;
   const v = String(value).trim();
-  if (/^[A-Za-z]{2}$/.test(v)) return v.toUpperCase();
   if (!countryIndex) {
     countryIndex = new Map();
     for (const lang of ['en', 'pt', 'es']) {
@@ -22,7 +21,11 @@ function countryCode(value) {
     }
     for (const [alias, code] of [['usa', 'US'], ['eua', 'US'], ['uk', 'GB'], ['england', 'GB']]) countryIndex.set(alias, code);
   }
-  return countryIndex.get(key(v)) || null;
+  const named = countryIndex.get(key(v));
+  if (named) return named;
+  // A two-letter value is an ISO code only if libphonenumber knows it ("UK" is caught above).
+  const upper = v.toUpperCase();
+  return /^[A-Z]{2}$/.test(upper) && getCountries().includes(upper) ? upper : null;
 }
 
 // Returns E.164 when the number is valid. Never drops a number:
@@ -30,7 +33,7 @@ function countryCode(value) {
 function normalizePhone(raw, { country, defaultCountry } = {}) {
   if (isBlank(raw)) return { phone: '', status: 'missing' };
   let text = String(raw).trim().replace(/^00/, '+');
-  const region = countryCode(country) || (defaultCountry ? defaultCountry.toUpperCase() : undefined);
+  const region = countryCode(country) || countryCode(defaultCountry) || undefined;
   let parsed = parsePhoneNumberFromString(text, region);
   if (parsed && parsed.isValid()) return { phone: parsed.number, status: 'valid', country: parsed.country };
   // Digits that already start with a country code but lost the "+" in the export.

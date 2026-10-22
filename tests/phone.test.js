@@ -32,3 +32,11 @@ test('never drops an invalid number', () => {
   assert.deepEqual(normalizePhone('123', { country: 'US' }), { phone: '123', status: 'invalid' });
   assert.deepEqual(normalizePhone(''), { phone: '', status: 'missing' });
 });
+
+test('UK and lower-case codes resolve; an unknown two-letter value is not a country', () => {
+  assert.equal(countryCode('UK'), 'GB');
+  assert.equal(countryCode('gb'), 'GB');
+  assert.equal(countryCode('XX'), null);
+  assert.equal(normalizePhone('020 7946 0958', { country: 'UK' }).status, 'valid');
+  assert.equal(normalizePhone('020 7946 0958', { defaultCountry: 'United Kingdom' }).phone, '+442079460958');
+});

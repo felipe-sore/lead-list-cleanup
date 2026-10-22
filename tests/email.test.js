@@ -38,3 +38,12 @@ test('MX check: one lookup per domain, A record fallback, no mail server', async
   assert.equal(out.get('dead.example'), 'no_mail_server');
   assert.equal(calls.filter((d) => d === 'mx.example').length, 1);
 });
+
+test('a failing DNS server is a dns_error, never a verdict on the domain', async () => {
+  const fail = (code) => async () => { const e = new Error(code); e.code = code; throw e; };
+  const resolver = { resolveMx: fail('ESERVFAIL'), resolve4: fail('ESERVFAIL') };
+  const out = await checkMailServers(['flaky.example'], resolver);
+  assert.equal(out.get('flaky.example'), 'dns_error');
+  const timeout = await checkMailServers(['slow.example'], { resolveMx: fail('ENODATA'), resolve4: fail('ETIMEOUT') });
+  assert.equal(timeout.get('slow.example'), 'dns_error');
+});

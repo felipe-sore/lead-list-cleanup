@@ -7,7 +7,14 @@ const { getJson } = require('./http');
 // never as an empty success. Optional: FIRECRAWL_API_KEY uses Firecrawl's scrape
 // endpoint instead, which gets past more anti-bot walls (paid credits).
 
-const BLOCK_SIGNS = ['just a moment', 'attention required', 'cloudflare', 'access denied', 'captcha'];
+// Challenge-page markers only. Plain "cloudflare" or "captcha" would flag every
+// site that loads scripts from a CDN or has a reCAPTCHA on its contact form.
+const BLOCK_SIGNS = ['<title>just a moment', '<title>attention required', 'cf-chl-', 'cf-browser-verification', '<title>access denied', 'verify you are human'];
+
+function isBlocked(status, html) {
+  const lower = html.slice(0, 20000).toLowerCase();
+  return status === 403 || BLOCK_SIGNS.some((s) => lower.includes(s));
+}
 
 function extract(html) {
   const title = (html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || '';
@@ -24,8 +31,7 @@ async function viaFetch(domain) {
     signal: AbortSignal.timeout(12000),
   });
   const html = await res.text();
-  const lower = html.slice(0, 20000).toLowerCase();
-  if (res.status === 403 || BLOCK_SIGNS.some((s) => lower.includes(s))) return { status: 'blocked', info: '' };
+  if (isBlocked(res.status, html)) return { status: 'blocked', info: '' };
   if (!res.ok) return { status: `http_${res.status}`, info: '' };
   const info = extract(html);
   return { status: info ? 'ok' : 'no_metadata', info };
@@ -51,4 +57,4 @@ async function describeDomain(domain, env = process.env) {
   }
 }
 
-module.exports = { describeDomain, extract };
+module.exports = { describeDomain, extract, isBlocked };
