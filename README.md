@@ -90,6 +90,7 @@ node bin/lead-clean.js leads.csv --check-mx --verify-email
 
 - **Wrong data is worse than missing data.** Uncertain names go to `Notes` as suggestions; enrichment uses explicit statuses (`confirmed`, `to_confirm`, `not_found`, `not_searched`).
 - **Flag, do not delete.** Only duplicates are removed, and every removal has a reason in the report.
+- **Safe to open in a spreadsheet.** A cell that would run as a formula (`=`, `+`, `-`, `@`) is written with a leading apostrophe, so a scraped title like `=HYPERLINK(...)` stays text. Phones and numbers are left alone.
 - **One dependency** (`libphonenumber-js`). CSV parsing, DNS checks and tests use Node's standard library.
 - **Adapters are injected**, so the tests never touch the network.
 

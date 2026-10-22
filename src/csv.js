@@ -55,8 +55,19 @@ function parseCsv(input) {
   return { headers, rows, delimiter };
 }
 
+// A cell that starts with = + - @ (or a tab or carriage return) runs as a
+// formula when the CSV is opened in Excel or Google Sheets. Scraped titles and
+// list values are untrusted, so such cells get a leading apostrophe and stay
+// text. Plain numbers are left alone: "+5521998765432" is a phone, not a formula.
+const NUMBER = /^[+-]?[\d\s().-]+$/;
+
+function neutralizeFormula(s) {
+  if (/^[=@\t\r]/.test(s) || (/^[+-]/.test(s) && !NUMBER.test(s))) return `'${s}`;
+  return s;
+}
+
 function escapeField(value) {
-  const s = value === undefined || value === null ? '' : String(value);
+  const s = neutralizeFormula(value === undefined || value === null ? '' : String(value));
   return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
@@ -66,4 +77,4 @@ function toCsv(headers, rows) {
   return lines.join('\n') + '\n';
 }
 
-module.exports = { parseCsv, toCsv, detectDelimiter };
+module.exports = { parseCsv, toCsv, detectDelimiter, neutralizeFormula };
