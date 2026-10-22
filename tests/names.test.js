@@ -39,3 +39,10 @@ test('name from email: single token confirmed by the first-name list', () => {
 test('name from email: generic mailboxes are ignored', () => {
   assert.equal(nameFromEmail('info@acme.com', cfg), null);
 });
+
+test('name from email: a role word anywhere means no name is taken', () => {
+  for (const e of ['sales.team@acme.com', 'contact-us@acme.com', 'support_latam@acme.com', 'jane.support@acme.com', 'info+promo@acme.com']) {
+    assert.equal(nameFromEmail(e, cfg), null, e);
+  }
+  assert.deepEqual(nameFromEmail('jane.doe@acme.com', cfg), { first: 'Jane', last: 'Doe', confidence: 'pattern' });
+});

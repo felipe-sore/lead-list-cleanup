@@ -5,6 +5,19 @@ const { isBlank } = require('./text');
 
 const SYNTAX = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/;
 
+// Local parts split at . _ - ("sales.team" -> sales, team), "+tag" dropped.
+function localTokens(local) {
+  return String(local || '').replace(/\+.*$/, '').split(/[._-]+/).filter(Boolean);
+}
+
+// A role mailbox: "info@", and also "sales.team@" or "contact-us@", where the
+// first part is a role. A person's address with a role word later
+// ("jane.sales@") is not flagged.
+function isRoleMailbox(local, cfg) {
+  const bare = String(local || '').replace(/\+.*$/, '');
+  return cfg.rolePrefixes.has(bare) || cfg.rolePrefixes.has(localTokens(bare)[0]);
+}
+
 // Offline checks, no API key needed: syntax, generic mailbox, disposable domain,
 // free provider. Lists come from config/ so they can be tuned per market.
 function analyzeEmail(raw, cfg) {
@@ -15,7 +28,7 @@ function analyzeEmail(raw, cfg) {
   const result = {
     email,
     domain: valid ? domain : '',
-    generic: valid && cfg.rolePrefixes.has(local.replace(/\+.*$/, '')),
+    generic: valid && isRoleMailbox(local, cfg),
     disposable: valid && cfg.disposableDomains.has(domain),
     free: valid && cfg.freeProviders.has(domain),
   };
@@ -46,4 +59,4 @@ async function checkMailServers(domains, resolver = dns) {
   return out;
 }
 
-module.exports = { analyzeEmail, checkMailServers };
+module.exports = { analyzeEmail, checkMailServers, isRoleMailbox, localTokens };

@@ -1,6 +1,7 @@
 'use strict';
 
 const { key, isBlank } = require('./text');
+const { localTokens } = require('./email');
 
 function capitalizeWord(word) {
   // Handles hyphens and apostrophes: "jean-luc" -> "Jean-Luc", "o'brien" -> "O'Brien".
@@ -35,7 +36,9 @@ function splitFullName(full, particles) {
 // Writing a wrong name is worse than leaving it blank.
 function nameFromEmail(email, cfg) {
   const local = String(email || '').split('@')[0].toLowerCase().replace(/\+.*$/, '');
-  if (!local || cfg.rolePrefixes.has(local)) return null;
+  // Any role word in the address ("sales.team@", "jane.support@") and no name is
+  // taken from it: "Sales Team" written as a person is worse than a blank.
+  if (!local || cfg.rolePrefixes.has(local) || localTokens(local).some((t) => cfg.rolePrefixes.has(t))) return null;
   const tokens = local.replace(/[0-9]/g, '').split(/[._-]+/).filter((t) => t.length >= 2);
   if (tokens.length >= 2) {
     return {

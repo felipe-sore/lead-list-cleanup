@@ -47,3 +47,8 @@ test('a failing DNS server is a dns_error, never a verdict on the domain', async
   const timeout = await checkMailServers(['slow.example'], { resolveMx: fail('ENODATA'), resolve4: fail('ETIMEOUT') });
   assert.equal(timeout.get('slow.example'), 'dns_error');
 });
+
+test('generic: role mailboxes with a dot, dash or underscore are flagged too', () => {
+  for (const e of ['sales.team@acme.com', 'contact-us@acme.com', 'support_br@acme.com']) assert.equal(analyzeEmail(e, cfg).generic, true, e);
+  for (const e of ['jane.sales@acme.com', 'salesforce.admin@acme.com', 'jane@acme.com']) assert.equal(analyzeEmail(e, cfg).generic, false, e);
+});
